@@ -184,22 +184,22 @@
 			}
 
 			/* progress: */
-			table tr.progress {
+			table tr.progressBar {
 
 			}
-			table tr.progress th paper-progress{
+			table tr.progressBar th paper-progress{
 				height: 0px;
 				transition: linear .2s height;
 			}
-			table tr.progress[data-progress] th paper-progress{
+			table tr.progressBar[data-progress] th paper-progress{
 				height: 3px;
 			}
-			table tr.progress th{
+			table tr.progressBar th{
 				padding: 0px;
 				height: 1px;
 				border-bottom:0px;
 			}
-			table tr.progress th paper-progress{
+			table tr.progressBar th paper-progress{
 				width: 100%;
 			}
 			paper-checkbox{
@@ -258,7 +258,7 @@
 							</th>
 						</template>
 					</tr>
-					<tr class="progress" data-progress$="[[progress]]">
+					<tr class="progressBar" data-progress$="[[progress]]">
 						<th colspan$="[[_numberOfColumnsPlusOne(_columns.splices)]]">
 							<paper-progress indeterminate></paper-progress>
 						</th>
