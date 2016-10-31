@@ -475,9 +475,10 @@
 							}.bind(this));
 
 						}else{
-							this.dataSource.get.apply(this.dataSource, queryArgs).then(function(items){
-								processItems(items);
-							});
+							if(this.dataSource.get)
+								this.dataSource.get.apply(this.dataSource, queryArgs).then(function(items){
+									processItems(items);
+								});
 						}
 					}, 0);
 
