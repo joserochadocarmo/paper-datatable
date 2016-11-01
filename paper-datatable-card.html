@@ -3,7 +3,7 @@
 <link rel="import" href="paper-datatable.html">
 
 <link rel="import" href="../paper-material/paper-material.html">
-<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<!--<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">-->
 <link rel="import" href="../paper-menu/paper-menu.html">
 <link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
@@ -146,15 +146,24 @@
 				<content select="paper-datatable"></content>
 			</div>
 			<div class="horizontal center layout" id="bottomBlock">
+				<content select="[toolbar-footer]"></content>
 				<div class="flex"></div>
-				<span>Rows per page:</span>
-				<paper-dropdown-menu no-label-float style="width: 68px;">
+				<span>Linhas por páginas:</span>
+				<ul id='dropdown1' class='dropdown-content'>
+					<template is="dom-repeat" items="{{pageSizeOptions}}">
+						<paper-item value="{{item}}" on-tap="setSelected">{{item}}</paper-item>
+					</template>
+				</ul>
+				<a class='dropdown-button btn-flat ' href='#' data-activates='dropdown1'>
+					<i class="material-icons">arrow_drop_down</i><span style="vertical-align:top;">{{pageSize}}</span>
+				</a>
+				<!--<paper-dropdown-menu no-label-float style="width: 68px;">
 					<paper-menu class="dropdown-content" selected="{{pageSize}}" attr-for-selected="value">
 						<template is="dom-repeat" items="{{pageSizeOptions}}">
 							<paper-item value="{{item}}">{{item}}</paper-item>
 						</template>
 					</paper-menu>
-				</paper-dropdown-menu>
+				</paper-dropdown-menu>-->
 				<span>
 					<span>[[_getRangeStart(page, pageSize)]]</span>-<span>[[_getRangeEnd(page, pageSize, numberOfItems)]]</span> de&nbsp;<span>[[numberOfItems]]</span>
 				</span>
@@ -306,6 +315,8 @@
 					this.set('_sortProperty', this.idProperty);
 				},
 				attached: function() {
+					var dropdown1 = Polymer.dom(this.root).querySelector('.dropdown-button');
+					$(dropdown1).dropdown({ hover: true, alignment: "bottom" });
                 	this._setDataSource();
             	},
 				_setDataSource: function(){
@@ -392,6 +403,7 @@
 					}
 				},
 				_handleSort: function(ev){
+					
 					if(this.dataSource) {
 						ev.preventDefault();
 						this.firstPage();
@@ -405,6 +417,7 @@
 				 * Call this function to trigger reloading of the current page
 				 */
 				retrieveVisibleData: function(){
+
 					this.debounce("visibleData", function(){
 						this._disableSave = true;
 
@@ -416,7 +429,10 @@
 							var args = ['data'].concat(items);
 							this._datatable.push.apply(this._datatable,args);
 							this._setSelectedKeysOnDatatable();
-							this._datatable.set('progress', false);
+							
+							var self = this;
+							
+							setTimeout(function(){ self._datatable.set('progress', false); }, 400);
 
 							this._disableSave = false;
 
@@ -593,6 +609,9 @@
 					this.push('selectedIds', id);
 					this._setSelectedKeysOnDatatable();
 					this._setSelectedToolbarVisible();
+				},
+				setSelected: function(e){
+					this.pageSize = e.target.value;
 				}
 
 			});
