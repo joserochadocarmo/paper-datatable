@@ -308,7 +308,7 @@ This element is used inside of `<paper-datatable>` to declare the columns to be 
 					}else if(this.type.toLowerCase() == 'number'){
 						return value;
 					}else if(this.type.toLowerCase() == 'boolean'){
-						return value ? 'Yes' : 'No';
+						return value ? 'Sim' : 'Não';
 					}else if(this.type.toLowerCase() == 'date'){
 						var prependZero = function(val){
 							return val < 10 ? '0' + val : val;
