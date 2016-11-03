@@ -4,7 +4,7 @@
 
 <link rel="import" href="../paper-material/paper-material.html">
 <!--<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">-->
-<link rel="import" href="../paper-menu/paper-menu.html">
+<!--<link rel="import" href="../paper-menu/paper-menu.html">-->
 <link rel="import" href="../paper-item/paper-item.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-progress/paper-progress.html">
@@ -146,7 +146,8 @@
 				<content select="paper-datatable"></content>
 			</div>
 			<div class="horizontal center layout" id="bottomBlock">
-				<content select="[toolbar-footer]"></content>
+				<content select="[toolbar-footer]">
+				</content>
 				<div class="flex"></div>
 				<span>Linhas por páginas:</span>
 				<ul id='dropdown1' class='dropdown-content'>
@@ -210,7 +211,10 @@
 						type:Object,
 						value: {}
 					},
-					myData: Object,
+					myData: {
+						type:Object,
+						value: {}
+					},
 					/**
 					 * Number of items per page
 					 *
@@ -340,7 +344,7 @@
 					}; 
 				},
 				observers: [
-					'retrieveVisibleData(dataSource, pageSize, page, _datatable, _sortDirection, _sortProperty)',
+					'retrieveVisibleData(myData,dataSource, pageSize, page, _datatable, _sortDirection, _sortProperty)',
 					'_setNumberOfItems(dataSource.length)',
 					'_createCache(dataSource.queryForIds)'
 				],
@@ -491,10 +495,11 @@
 							}.bind(this));
 
 						}else{
-							if(this.dataSource.get)
+							if(this.dataSource.get){
 								this.dataSource.get.apply(this.dataSource, queryArgs).then(function(items){
 									processItems(items);
 								});
+							}
 						}
 					}, 0);
 
